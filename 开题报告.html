@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>开题报告 · 欧派大家居 AI 协同中枢</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f6f7; color: #1f2329; line-height: 1.7; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 40px 28px 60px; }
+  .hero { background: linear-gradient(135deg,#3370ff,#5d81f3); color: white; padding: 28px 30px; border-radius: 12px; margin-bottom: 28px; }
+  .hero h1 { font-size: 22px; margin-bottom: 6px; }
+  .hero p { font-size: 13px; opacity: .9; }
+  .meta { display: flex; gap: 14px; margin-top: 12px; flex-wrap: wrap; }
+  .meta span { background: rgba(255,255,255,.18); padding: 4px 12px; border-radius: 12px; font-size: 11px; }
+  .section { background: white; border-radius: 10px; padding: 24px 28px; margin-bottom: 18px; box-shadow: 0 1px 4px rgba(0,0,0,.05); border: 1px solid #e8eaed; }
+  .section h2 { font-size: 16px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; color: #1f2329; }
+  .section h2 .num { background: linear-gradient(135deg,#3370ff,#5d81f3); color: white; width: 24px; height: 24px; border-radius: 6px; font-size: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .section h3 { font-size: 14px; font-weight: 700; margin: 14px 0 8px; color: #3370ff; }
+  .section p, .section li { font-size: 13.5px; margin-bottom: 8px; color: #4e5969; }
+  .section ul, .section ol { padding-left: 22px; margin-bottom: 10px; }
+  .section li { margin-bottom: 5px; }
+  .section strong { color: #1f2329; }
+  .warn-box { background: #fff7e8; border-left: 3px solid #faad14; padding: 10px 14px; border-radius: 0 6px 6px 0; font-size: 12px; color: #8a6d00; margin-top: 12px; }
+  .ok-box { background: #f6ffed; border-left: 3px solid #52c41a; padding: 10px 14px; border-radius: 0 6px 6px 0; font-size: 12px; color: #2e7d32; margin-top: 12px; }
+  .diagram { background: #1f2329; color: #d4d5d8; padding: 18px 20px; border-radius: 8px; font-size: 12.5px; line-height: 1.8; overflow-x: auto; font-family: "SF Mono", Consolas, monospace; margin: 14px 0; white-space: pre; }
+  .diagram .k { color: #7ee787; }
+  .diagram .s { color: #a5d6ff; }
+  .diagram .c { color: #8b949e; }
+  .footer { text-align: center; font-size: 11px; color: #8f959e; margin-top: 24px; }
+  @media (max-width: 600px) { .wrap { padding: 24px 16px 40px; } .section { padding: 18px 18px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <h1>欧派大家居 AI 协同中枢 · 开题报告</h1>
+    <p>飞书 AI 先锋大赛 · 命题企业：欧派家居</p>
+    <div class="meta">
+      <span>🏢 命题企业：欧派</span>
+      <span>📊 Part 1 前置分析 + Part 2 解决方案</span>
+    </div>
+  </div>
+
+  <!-- Part 1 -->
+  <div class="section">
+    <h2><span class="num">1</span> 命题前置分析与洞察</h2>
+    <p>大家居本质矛盾是"<strong>重非标服务 × 规模化复制</strong>"。定制家居正从单品转向整家一体化，订单横跨多品类、多周期、多角色。欧派旗下 4800 家终端门店以经销商为主，渠道网络全行业最广，但品类、角色和服务节点增加后，也放大了需求失真、方案混乱、跟进不一致与交付责任模糊等连锁问题。</p>
+
+    <h3>路径分化与共同盲点</h3>
+    <p>行业竞争出现路径分化：</p>
+    <ul>
+      <li><strong>索菲亚</strong>走"重系统"路线，用资本透做生产端；</li>
+      <li><strong>尚品宅配</strong>走"AI 替代设计师"路线，20 秒出全屋方案；</li>
+      <li><strong>金牌/志邦</strong>在设计→生产数据打通上落地 AI 拆单。</li>
+    </ul>
+    <p>但三条路径共同暴露一个盲点：<strong>门店端"人盯人"协作均未被真正解决</strong>——索菲亚系统再强，设计数据到门店后仍靠导购口述；尚品设计再快，随心选交付仍卡在后端。</p>
+
+    <h3>核心判断</h3>
+    <p>行业已从"<strong>系统竞赛</strong>"进入"<strong>组织效率竞赛</strong>"。因果链清晰：<strong>流程割裂 → 销售管控难 → 客户体验差</strong>。</p>
+    <div class="ok-box">本命题不做单一 AI 设计或客服工具，而是以飞书为协同底座，构建贯穿 <strong>需求、方案、跟进、交付、售后</strong> 五阶段的<strong>中间件协同层</strong>——让客户少重复、销售少遗漏、管理者早预警。</div>
+  </div>
+
+  <!-- Part 2 -->
+  <div class="section">
+    <h2><span class="num">2</span> 整体解决方案设计</h2>
+
+    <h3>2.1 方案概述</h3>
+    <p>方案名：<strong>「欧派大家居 AI 协同中枢」</strong>。以飞书为协同引擎，不替代欧派现有 ERP/MES/设计软件，只做"<strong>中间件协同层</strong>"，把串行的"客户→门店→工厂→安装→售后"链路重构为五阶段可追踪闭环，在每一阶段嵌入可解释、可兜底的 AI 能力。</p>
+
+<h3>2.2 架构设计（三层 + 五个 Agent）</h3>
+
+    <p><strong>底座层（飞书协同引擎）：</strong></p>
+    <ul>
+      <li>多维表格承载订单/客户/项目主数据；</li>
+      <li>审批流串联 <strong>量尺→设计→报价→生产→交付→验收</strong> 六大节点；</li>
+      <li>机器人做状态变更自动推送与异常预警；</li>
+      <li>Wiki 知识库沉淀产品标准、安装 SOP、话术；</li>
+      <li>客户群/项目群作为客户—门店—工厂三方沟通载体。</li>
+    </ul>
+
+    <p><strong>智能层（五个场景化 Agent，本报告先落前两个）：</strong></p>
+    <ul>
+      <li><strong>设计 Agent</strong>（对标尚品 AI 设计工厂，定位"设计师副驾驶"而非替代）：根据户型+偏好生成方案初稿与 3D 效果图，设计师专注创意审核，确认后通过多维表格自动同步到报价与生产环节，解决"前端快、后端断"断层。</li>
+      <li><strong>销售教练 Agent</strong>：嵌入多维表格的成交诊断逻辑，自动识别跟进卡点，向导购推送下一步动作建议。</li>
+      <li><strong>报价 Agent、交付调度 Agent、客服 Agent</strong> 作为 Phase 2 扩展——其可行性取决于门店数据可得性，不在本期验证。</li>
+    </ul>
+
+    <p><strong>数据层（总部驾驶舱）：</strong>经销商运营、订单全链路、客诉率、交付准时率多维报表，穿透到单笔订单。数据来源为中间件被动回写，不主动修改 ERP/MES 主数据，保持中间件定位。</p>
+
+    <div class="diagram">
+┌─────────────────────────────────────────────────────────────┐
+│  客户  ←→  门店导购  ←→  工厂 MES  ←→  总部驾驶舱        │
+└──────────────────────────┬──────────────────────────────────┘
+                           │ 飞书协同底座（中间件协同层）
+        ┌──────────────────┼──────────────────┐
+        │                  │                  │
+   <span class="k">多维表格</span>         <span class="k">审批流</span>          <span class="k">机器人+IM</span>
+   订单/客户/项目     六大卡点推送       实时通知+预警
+        │                  │                  │
+        └────────┬─────────┴─────────┬────────┘
+                 │                   │
+           <span class="s">设计/销售/报价/交付/客服</span>    <span class="s">多维报表</span>
+            (5 个 AI 智能体)           (总部驾驶舱)</div>
+
+    <h3>2.3 核心创新</h3>
+    <ul>
+      <li><strong>模式创新：</strong>做"中间件协同层"，把"前后端"延伸为"<strong>客户↔门店↔工厂↔安装</strong>"全链路可视。欧派 4800 家加盟门店的规模，既是最大难点，也是模式跑通后的最大壁垒。</li>
+      <li><strong>流程创新：</strong>"AI 接管流转，人做关键决策"，串行变并行。通过飞书机器人+审批流把每个节点状态变更自动触发下游动作，目标将全链路周期从行业均值 <strong>38 天压缩到 15–20 天</strong>。</li>
+      <li><strong>知识创新：</strong>"结构化知识库 + 大模型推理"双轮驱动，让 AI 回答基于<strong>欧派事实</strong>而非通用常识。</li>
+    </ul>
+
+    <h3>2.4 落地验证（最小可行实验）</h3>
+    <p><strong>选 2 家门店、4 周、30 个订单做 AB 测试</strong>（A 组传统流程，B 组飞书+AI 协同）：</p>
+    <div class="ok-box">
+      <strong>主指标 3 个：</strong><br>
+      · 签约周期缩短比例 — 目标 ≥20%<br>
+      · 改稿次数 — 目标下降 ≥25%<br>
+      · 客户 NPS — 目标提升 ≥10 分<br>
+      显著性 <strong>p &lt; 0.05</strong>
+    </div>
+
+    <h3>2.5 风险与局限</h3>
+    <ul>
+      <li><strong>数据可得性：</strong>交付调度 Agent 所需产能/物流/排期数据需与欧派 IT 确认接口开放情况。</li>
+      <li><strong>组织可行性：</strong>加盟模式下总部推系统进门店的博弈成本需配套培训 SOP 与激励。</li>
+      <li><strong>AI 误判：</strong>关键报价、承诺、变更均需人工确认并留痕，异常工单超 24 小时自动升级到区域经理。</li>
+    </ul>
+    <div class="warn-box"><strong>可推广性：</strong>Phase 2 扩展至更多门店、分品类验证。欧派 4800 家门店网络一旦验证成功，即为该模式在大家居行业最具说服力的灯塔案例。</div>
+  </div>
+
+  <div class="footer">
+    <p>参赛团队：<strong>hubayi</strong> · 命题企业：<strong>欧派家居</strong> · 比赛：<strong>飞书 AI 先锋大赛 2026</strong></p>
+    <p style="margin-top:4px">在线 Demo → <a href="./feishu-demo.html" style="color:#3370ff">feishu-demo.html</a> · 导航页 → <a href="./" style="color:#3370ff">index.html</a></p>
+  </div>
+
+</div>
+</body>
+</html>
