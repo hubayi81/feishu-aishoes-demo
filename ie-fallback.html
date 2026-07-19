@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>欧派大家居 AI 协同中枢 · 兼容版</title>
+<style>
+  /*==== 全局 ====*/
+  * { margin: 0; padding: 0; }
+  body { font-size: 13px; color: #1f2329; background: #f5f6f7; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
+  a { color: #3370ff; text-decoration: none; }
+
+  /*==== 顶栏 ====*/
+  .topbar { background: #fff; border-bottom: 2px solid #dee0e3; height: 50px; line-height: 50px; padding: 0 20px; }
+  .topbar .logo { color: #3370ff; font-weight: bold; font-size: 16px; }
+  .topbar .sub { color: #8f959e; font-size: 12px; margin-left: 8px; }
+
+  /*==== 主面板 ====*/
+  .header { background: #fff; border-bottom: 1px solid #dee0e3; padding: 14px 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header p { font-size: 12px; color: #8f959e; }
+
+  /*==== 筛选条 ====*/
+  .filters { padding: 10px 20px; background: #fafcfc; border-bottom: 1px solid #eceef1; }
+  .filters span { font-size: 12px; color: #4e5969; }
+
+  /*==== 多维表格：用 table ====*/
+  .data-table { width: 100%; border-collapse: collapse; border: 1px solid #dee0e3; background: #fff; }
+  .data-table th { background: #2e75b6; color: #fff; font-weight: bold; font-size: 12px; text-align: left; padding: 11px 10px; border-bottom: 2px solid #1f5b99; }
+  .data-table td { padding: 8px 10px; border-bottom: 1px solid #eceef1; font-size: 12px; }
+  .data-table tr:hover td { background: #f5f8ff; }
+
+  /*==== 状态标 ====*/
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+  .tag-new     { background: #e8f3ff; color: #3370ff; }
+  .tag-measure { background: #fff7e8; color: #d48806; }
+  .tag-design  { background: #f6ffed; color: #389e0d; }
+  .tag-quote   { background: #fff0f6; color: #c41d7f; }
+  .tag-sign    { background: #f9f0ff; color: #531dab; }
+  .tag-produce { background: #e6f4ff; color: #0958d9; }
+  .tag-install { background: #fffbe6; color: #ad6800; }
+  .tag-done    { background: #f6ffed; color: #389e0d; }
+
+  /*==== 三列看板：float ====*/
+  .kanban-row { width: 100%; overflow: hidden; padding: 16px 20px; }
+  .kanban-col { width: 32%; float: left; margin-right: 1.3%; }
+  .kanban-col:last-child { margin-right: 0; }
+  .kanban-col h4 { font-size: 13px; padding: 10px; background: #fff; border: 1px solid #dee0e3; border-radius: 8px 8px 0 0; border-bottom: none; }
+  .kanban-col .count { float: right; background: #f4f5f7; border-radius: 10px; padding: 1px 8px; font-size: 11px; margin-top: 2px; }
+  .cards { background: #fff; border: 1px solid #dee0e3; border-radius: 0 0 8px 8px; padding: 8px; min-height: 300px; }
+  .card { border: 1px solid #e8eaed; border-radius: 6px; padding: 10px; margin-bottom: 8px; background: #fff; }
+  .card:hover { border-color: #3370ff; background: #f5f8ff; }
+  .card .top { overflow: hidden; margin-bottom: 6px; }
+  .card .top .name { font-weight: 700; float: left; }
+  .card .top .amount { font-weight: 700; color: #3370ff; float: right; }
+  .card .meta { font-size: 11px; color: #8f959e; clear: both; margin-bottom: 5px; }
+  .card .ai-tip { background: #f0f5ff; border-radius: 4px; padding: 5px 8px; font-size: 11px; color: #3370ff; margin-top: 6px; }
+
+  /*==== 机器人消息 ====*/
+  .chat { background: #fff; border: 1px solid #dee0e3; border-radius: 8px; margin: 16px 20px; padding: 0; max-height: 600px; overflow: auto; }
+  .chat .chead { padding: 14px 16px; border-bottom: 1px solid #dee0e3; background: #fafbfc; border-radius: 8px 8px 0 0; font-weight: 600; }
+  .chat .cbody { padding: 14px 16px; }
+  .msg { overflow: hidden; margin-bottom: 14px; }
+  .msg .av { width: 32px; height: 32px; line-height: 32px; text-align: center; border-radius: 6px; float: left; font-size: 14px; background: #3370ff; color: #fff; }
+  .msg .bubble { float: left; max-width: 680px; margin-left: 10px; padding: 10px 14px; background: #f4f5f7; border-radius: 8px; font-size: 13px; line-height: 1.6; }
+  .msg.right { direction: rtl; }
+  .msg.right .av { float: right; background: #4e5969; }
+  .msg.right .bubble { float: right; margin-left: 0; margin-right: 10px; background: #3370ff; color: #fff; direction: ltr; }
+  .msg .time { clear: left; font-size: 11px; color: #bbbec4; margin: 3px 0 0 42px; }
+  .msg.right .time { clear: right; text-align: right; margin: 3px 42px 0 0; }
+
+  /*==== 机器人卡片 ====*/
+  .bot-card { border: 1px solid #dee0e3; border-radius: 8px; overflow: hidden; margin-top: 8px; }
+  .bot-card .bt { padding: 10px 14px; background: #f0f5ff; color: #3370ff; font-weight: 600; }
+  .bot-card .bb { padding: 11px 14px; font-size: 12px; line-height: 1.7; }
+  .bot-card .row { overflow: hidden; padding: 4px 0; border-bottom: 1px solid #f4f5f7; }
+  .bot-card .row .lbl { color: #8f959e; float: left; }
+  .bot-card .row .val { font-weight: 600; float: right; }
+  .bot-card .row .val.ok { color: #389e0d; }
+  .bot-card .row .val.warn { color: #d48806; }
+  .bot-card .row .val.alert { color: #cf1322; }
+
+  /*==== 设计助手 ====*/
+  .design-panel { overflow: hidden; padding: 16px 20px; }
+  .design-input { width: 30%; float: left; background: #fff; border: 1px solid #dee0e3; border-radius: 10px; padding: 18px; }
+  .design-result { width: 67%; float: right; background: #fff; border: 1px solid #dee0e3; border-radius: 10px; padding: 18px; }
+  .design-input h3 { margin-bottom: 4px; }
+  .design-input .sub { font-size: 12px; color: #8f959e; margin-bottom: 14px; }
+  .form-row { margin-bottom: 10px; }
+  .form-row label { display: block; font-size: 12px; color: #4e5969; font-weight: 500; margin-bottom: 4px; }
+  .form-row input, .form-row select { width: 96%; padding: 7px 10px; border: 1px solid #dee0e3; border-radius: 6px; font-size: 12px; background: #fafbfc; }
+  .form-row.w50 { width: 48%; float: left; margin-right: 4%; }
+  .form-row.w50.last { margin-right: 0; }
+  .style-chips { overflow: hidden; }
+  .style-chips .chip { float: left; padding: 5px 10px; border-radius: 12px; border: 1px solid #dee0e3; font-size: 11px; margin: 0 5px 5px 0; cursor: pointer; background: #fff; }
+  .style-chips .chip.active { background: #3370ff; color: #fff; border-color: #3370ff; }
+  .run-btn { width: 100%; padding: 10px; background: #3370ff; color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; margin-top: 6px; }
+  .run-btn:hover { background: #2458d8; }
+
+  /*==== 结果预览 ====*/
+  .render { height: 160px; background: #f5f6f7; border-radius: 8px; position: relative; display: table; width: 100%; margin-bottom: 14px; }
+  .render .room { display: table-row; }
+  .render .zone { display: table-cell; width: 33%; text-align: center; vertical-align: middle; font-size: 32px; color: rgba(0,0,0,.15); background: #fff; border: 1px solid #e5e7ef; }
+  .render .badge { position: absolute; top: 10px; right: 12px; background: rgba(51,112,255,.9); color: #fff; font-size: 11px; padding: 3px 9px; border-radius: 10px; }
+  .render .time { position: absolute; bottom: 10px; left: 12px; font-size: 11px; color: #4e5969; background: rgba(255,255,255,.9); padding: 3px 9px; border-radius: 10px; }
+
+  /*==== BOM 表 ====*/
+  .bom { width: 100%; border-collapse: collapse; }
+  .bom th { text-align: left; font-size: 11px; color: #8f959e; padding: 7px 10px; border-bottom: 1px solid #eceef1; }
+  .bom td { padding: 8px 10px; font-size: 12px; border-bottom: 1px solid #f4f5f7; }
+  .bom .price { text-align: right; font-weight: 700; color: #3370ff; }
+  .bom-total { overflow: hidden; padding: 10px; font-weight: 700; background: #fafbfc; border-radius: 6px; margin-top: 8px; }
+  .bom-total .lbl { float: left; }
+  .bom-total .val { float: right; }
+  .bom-tip { clear: both; overflow: hidden; padding: 4px 10px; font-size: 11px; }
+
+  /*==== 底部 ====*/
+  .footer { background: #fafbfc; border-top: 1px solid #dee0e3; padding: 10px 20px; font-size: 11px; color: #8f959e; overflow: hidden; }
+  .footer .l { float: left; }
+  .footer .r { float: right; }
+
+  /*==== 选项卡 ====*/
+  .tabs { padding: 0 20px; border-bottom: 1px solid #dee0e3; overflow: hidden; background: #fff; }
+  .tabs .tab { float: left; padding: 12px 18px; cursor: pointer; font-size: 13px; color: #646a73; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .tabs .tab.active { color: #3370ff; font-weight: 700; border-bottom-color: #3370ff; }
+  .view { display: none; }
+  .view.active { display: block; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="logo">飞书</span>
+  <span class="sub">欧派大家居 AI 协同中枢 | 业务中台 Demo (兼容版，支持 IE11+ / 旧 Edge / 微信内置浏览器)</span>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchView('table',this)">多维表格</div>
+  <div class="tab" onclick="switchView('kanban',this)">看板视图</div>
+  <div class="tab" onclick="switchView('chat',this)">AI 机器人</div>
+  <div class="tab" onclick="switchView('design',this)">AI 设计助手</div>
+</div>
+
+<!-- ========== 视图 1：多维表格 ========== -->
+<div class="view active" id="view-table">
+  <div class="header">
+    <h1>客户订单中心</h1>
+    <p>欧派 4800 家门店 · 全链路可视 · 实时数据穿透</p>
+  </div>
+  <div class="filters">
+    <span>快速筛选：</span>
+    <a href="#" style="color:#3370ff;font-size:12px;margin-left:10px;">全部 1,247</a>
+    <a href="#" style="font-size:12px;margin-left:12px;">待跟进 218</a>
+    <a href="#" style="font-size:12px;margin-left:12px;">设计中 156</a>
+    <a href="#" style="font-size:12px;margin-left:12px;">待报价 89</a>
+    <a href="#" style="font-size:12px;margin-left:12px;">已签约 412</a>
+    <a href="#" style="font-size:12px;margin-left:12px;">生产中 201</a>
+    <a href="#" style="font-size:12px;margin-left:12px;">安装中 124</a>
+    <a href="#" style="font-size:12px;margin-left:12px;">已完成 47</a>
+  </div>
+  <div style="padding:12px 20px;">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>客户姓名</th><th>联系方式</th><th>楼盘 / 户型</th><th>预估金额</th>
+          <th>订单状态</th><th>设计师</th><th>AI 教练</th><th>更新日期</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>王芳</strong></td><td>138****5621</td><td>广州·珠江新城 143㎡ 四房</td>
+          <td style="text-align:right;font-weight:700;">¥ 58,000</td>
+          <td><span class="tag tag-design">设计中</span></td>
+          <td>李设计</td><td>在线</td><td>07-15</td>
+        </tr>
+        <tr>
+          <td><strong>张伟</strong></td><td>139****8834</td><td>北京·望京西园 89㎡ 三房</td>
+          <td style="text-align:right;font-weight:700;">¥ 32,000</td>
+          <td><span class="tag tag-quote">待报价</span></td>
+          <td>赵设计</td><td>在线</td><td>07-16</td>
+        </tr>
+        <tr>
+          <td><strong>陈明</strong></td><td>186****2210</td><td>上海·汤臣一品 220㎡ 复式</td>
+          <td style="text-align:right;font-weight:700;">¥ 185,000</td>
+          <td><span class="tag tag-sign">已签约</span></td>
+          <td>刘总监</td><td>在线</td><td>07-14</td>
+        </tr>
+        <tr>
+          <td><strong>林小红</strong></td><td>135****7766</td><td>深圳·华润城 110㎡ 三房</td>
+          <td style="text-align:right;font-weight:700;">¥ 46,000</td>
+          <td><span class="tag tag-produce">生产中</span></td>
+          <td>周设计</td><td>离线</td><td>07-12</td>
+        </tr>
+        <tr>
+          <td><strong>杨洋</strong></td><td>158****3344</td><td>杭州·绿城桂花城 75㎡ 两房</td>
+          <td style="text-align:right;font-weight:700;">¥ 28,000</td>
+          <td><span class="tag tag-install">安装中</span></td>
+          <td>吴设计</td><td>在线</td><td>07-10</td>
+        </tr>
+        <tr>
+          <td><strong>黄磊</strong></td><td>136****9988</td><td>成都·麓湖生态 160㎡ 四房</td>
+          <td style="text-align:right;font-weight:700;">¥ 72,000</td>
+          <td><span class="tag tag-measure">待量尺</span></td>
+          <td>—</td><td>在线</td><td>07-17</td>
+        </tr>
+        <tr>
+          <td><strong>周婷</strong></td><td>189****1122</td><td>南京·仁恒江湾 96㎡ 三房</td>
+          <td style="text-align:right;font-weight:700;">¥ 38,000</td>
+          <td><span class="tag tag-new">待跟进</span></td>
+          <td>—</td><td>在线</td><td>07-18</td>
+        </tr>
+        <tr>
+          <td><strong>吴刚</strong></td><td>137****4455</td><td>武汉·复地东湖 128㎡ 四房</td>
+          <td style="text-align:right;font-weight:700;">¥ 52,000</td>
+          <td><span class="tag tag-done">已完成</span></td>
+          <td>孙设计</td><td>离线</td><td>06-28</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ========== 视图 2：看板 ========== -->
+<div class="view" id="view-kanban">
+  <div class="header">
+    <h1>订单看板</h1>
+    <p>阶段流转 · 智能建议</p>
+  </div>
+  <div class="kanban-row">
+    <div class="kanban-col">
+      <h4>待跟进 <span class="count">218</span></h4>
+      <div class="cards">
+        <div class="card">
+          <div class="top"><span class="name">周婷</span><span class="amount">¥3.8万</span></div>
+          <div class="meta">南京·仁恒江湾 | 96㎡ 三房</div>
+          <div class="ai-tip">AI 建议：48h 未回复，推荐发送「7月限时优惠」话术</div>
+        </div>
+        <div class="card">
+          <div class="top"><span class="name">黄磊</span><span class="amount">¥7.2万</span></div>
+          <div class="meta">成都·麓湖生态 | 160㎡ 四房</div>
+          <div class="ai-tip">AI 建议：大户型高客单，建议总监级设计师对接</div>
+        </div>
+      </div>
+    </div>
+    <div class="kanban-col">
+      <h4>设计中 <span class="count">89</span></h4>
+      <div class="cards">
+        <div class="card">
+          <div class="top"><span class="name">王芳</span><span class="amount">¥5.8万</span></div>
+          <div class="meta">广州·珠江新城 | 143㎡ 四房</div>
+          <div class="ai-tip">AI 设计助手已生成 3 套初稿，设计师审核中</div>
+        </div>
+      </div>
+    </div>
+    <div class="kanban-col">
+      <h4>待报价 <span class="count">67</span></h4>
+      <div class="cards">
+        <div class="card">
+          <div class="top"><span class="name">张伟</span><span class="amount">¥3.2万</span></div>
+          <div class="meta">北京·望京西园 | 89㎡ 三房</div>
+          <div class="ai-tip">AI 报价 Agent 已解析 BOM，预计 2 分钟出报价</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="kanban-row" style="padding-top:0;">
+    <div class="kanban-col">
+      <h4>已签约 <span class="count">412</span></h4>
+      <div class="cards">
+        <div class="card">
+          <div class="top"><span class="name">陈明</span><span class="amount">¥18.5万</span></div>
+          <div class="meta">上海·汤臣一品 | 220㎡ 复式</div>
+          <div class="ai-tip">已自动同步工厂排期，预计 7-25 投产</div>
+        </div>
+      </div>
+    </div>
+    <div class="kanban-col">
+      <h4>生产中 <span class="count">201</span></h4>
+      <div class="cards">
+        <div class="card">
+          <div class="top"><span class="name">林小红</span><span class="amount">¥4.6万</span></div>
+          <div class="meta">深圳·华润城 | 110㎡ 三房</div>
+          <div class="ai-tip">生产进度 68%，预计 7-22 发货</div>
+        </div>
+      </div>
+    </div>
+    <div class="kanban-col">
+      <h4>安装中 <span class="count">124</span></h4>
+      <div class="cards">
+        <div class="card">
+          <div class="top"><span class="name">杨洋</span><span class="amount">¥2.8万</span></div>
+          <div class="meta">杭州·绿城桂花城 | 75㎡ 两房</div>
+          <div class="ai-tip">安装预约 7-20 14:00，已通过飞书通知业主</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 视图 3：AI 机器人 ========== -->
+<div class="view" id="view-chat">
+  <div class="header">
+    <h1>欧派 AI 销售教练</h1>
+    <p>在线 · 已接入 4800 家门店</p>
+  </div>
+  <div class="chat">
+    <div class="chead">🤖 欧派 AI 销售教练</div>
+    <div class="cbody">
+      <div class="msg">
+        <div class="av">🤖</div>
+        <div>
+
+          <div class="bubble">早上好！今日门店数据已汇总：<br>• 新增线索 <strong>38 条</strong>，其中 6 条高意向<br>• 待跟进客户 <strong>218 位</strong>，48h 未回复 12 位<br>• 设计中订单 89 单，3 单超 5 天未推进<br><br>需要我推送跟进建议吗？</div>
+          <div class="time">07-18 09:02 · AI 教练</div>
+        </div>
+      </div>
+      <div class="msg right">
+        <div class="av">我</div>
+        <div>
+          <div class="bubble">帮我看看王芳那单，143㎡ 四房，设计中卡了 4 天了</div>
+          <div class="time">07-18 09:03</div>
+        </div>
+      </div>
+      <div class="msg">
+        <div class="av">🤖</div>
+        <div>
+          <div class="bubble">已调取订单详情：</div>
+          <div class="bot-card">
+            <div class="bt">📋 订单 #OP2024071589 · 王芳</div>
+            <div class="bb">
+              <div class="row"><span class="lbl">楼盘</span><span class="val">广州·珠江新城 143㎡ 四房</span></div>
+              <div class="row"><span class="lbl">预估金额</span><span class="val">¥58,000</span></div>
+              <div class="row"><span class="lbl">当前状态</span><span class="val warn">设计中 · 已卡 4 天</span></div>
+              <div class="row"><span class="lbl">卡点诊断</span><span class="val alert">客户对橱柜门板材质犹豫</span></div>
+              <div class="row"><span class="lbl">AI 建议</span><span class="val ok">推送门板对比图 + 限时保价话术</span></div>
+            </div>
+          </div>
+          <div class="time">07-18 09:03 · AI 教练</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 视图 4：AI 设计助手 ========== -->
+<div class="view" id="view-design">
+  <div class="header">
+    <h1>AI 设计助手</h1>
+    <p>输入户型与偏好，20 秒生成整家方案初稿</p>
+  </div>
+  <div class="design-panel">
+    <div class="design-input">
+      <h3>🏠 设计要求输入</h3>
+      <p class="sub">支持多风格混搭，AI 自动匹配整家 BOM</p>
+      <div class="form-row">
+        <label>楼盘 / 户型</label>
+        <input type="text" id="d-house" value="广州·珠江新城 143㎡ 四房">
+      </div>
+      <div class="form-row w50">
+        <label>面积(㎡)</label>
+        <input type="number" id="d-area" value="143">
+      </div>
+      <div class="form-row w50 last">
+        <label>预算(万元)</label>
+        <input type="number" id="d-budget" value="8">
+      </div>
+      <div class="form-row">
+        <label>装修风格（可多选）</label>
+        <div class="style-chips" id="styleChips">
+          <span class="chip active">现代简约</span><span class="chip">北欧</span>
+          <span class="chip active">新中式</span><span class="chip">轻奢</span>
+          <span class="chip">日式原木</span><span class="chip">工业风</span>
+        </div>
+      </div>
+      <button class="run-btn" id="designRun" onclick="generateDesign()">⚡ AI 一键生成整家方案</button>
+    </div>
+    <div class="design-result">
+      <h3 style="margin-bottom:12px;">📐 方案结果预览 <span style="font-size:11px;background:#e8f5e9;color:#2e7d32;padding:2px 8px;border-radius:10px">⚡ 基于 AI 设计 Agent</span></h3>
+      <div class="render">
+        <div class="badge" id="rBadge">现代简约 + 新中式</div>
+        <div class="time">⏱ 生成耗时 3.2 秒</div>
+        <div class="room">
+          <div class="zone" style="border-left:none">客厅</div>
+          <div class="zone">餐厅</div>
+          <div class="zone" style="border-right:none">厨房</div>
+        </div>
+      </div>
+      <table class="bom">
+        <thead><tr><th>品类</th><th>产品</th><th style="text-align:right">小计</th></tr></thead>
+        <tbody id="bomBody">
+          <tr><td>橱柜</td><td>一字型橱柜+石英石台面 3.6m</td><td class="price">¥ 18,500</td></tr>
+          <tr><td>衣柜</td><td>主卧+次卧平开门衣柜 24㎡</td><td class="price">¥ 14,200</td></tr>
+          <tr><td>木门</td><td>实木复合门×3 含五金</td><td class="price">¥ 6,900</td></tr>
+          <tr><td>卫浴</td><td>花洒+马桶+浴室柜 套装</td><td class="price">¥ 5,400</td></tr>
+        </tbody>
+      </table>
+      <div class="bom-total"><span class="lbl">预估整家总价</span><span class="val">¥ 45,000</span></div>
+      <div class="bom-tip"><span style="float:left;color:#8f959e">预算 8 万 · 剩余 3.5 万</span><span style="float:right;color:#389e0d">✓ 预算内</span></div>
+      <div style="margin-top:14px;">
+        <a class="run-btn" style="display:inline-block;text-align:center;background:#f0f5ff;color:#3370ff;border:1px solid #3370ff;width:auto;padding:8px 18px;margin-right:8px;" href="#" onclick="alert('已推送完整报价给顾客');return false;">📤 推送报价</a>
+        <a class="run-btn" style="display:inline-block;text-align:center;background:#f0f5ff;color:#3370ff;border:1px solid #3370ff;width:auto;padding:8px 18px;margin-right:8px;" href="#" onclick="alert('已同步生产排期，预计 7 天后投产');return false;">🏭 同步排期</a>
+        <a class="run-btn" style="display:inline-block;text-align:center;background:#fffbe6;color:#ad6800;border:1px solid #faad14;width:auto;padding:8px 18px;" href="#" onclick="alert('已提交设计师审核');return false;">✅ 提交审核</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// 视图切换（兼容 IE）
+function switchView(id, el) {
+  var views = document.getElementsByClassName('view');
+  for (var i = 0; i < views.length; i++) views[i].className = 'view';
+  document.getElementById('view-' + id).className = 'view active';
+  var tabs = document.getElementsByClassName('tab');
+  for (var j = 0; j < tabs.length; j++) tabs[j].className = 'tab';
+  el.className = 'tab active';
+}
+
+// 风格 chip 点击
+(function() {
+  var chips = document.getElementById('styleChips').getElementsByClassName('chip');
+  for (var i = 0; i < chips.length; i++) {
+    (function(idx) {
+      chips[idx].onclick = function() {
+        if (this.className.indexOf('active') >= 0) this.className = 'chip';
+        else this.className = 'chip active';
+        updateBadge();
+      };
+    })(i);
+  }
+})();
+
+function updateBadge() {
+  var chips = document.getElementById('styleChips').getElementsByClassName('chip');
+  var active = [];
+  for (var i = 0; i < chips.length; i++) {
+    if (chips[i].className.indexOf('active') >= 0) active.push(chips[i].innerHTML);
+  }
+  document.getElementById('rBadge').innerHTML = active.length ? active.join(' + ') : '现代简约';
+}
+
+function generateDesign() {
+  var runBtn = document.getElementById('designRun');
+  runBtn.innerHTML = '🔄 正在生成...';
+  runBtn.disabled = true;
+  setTimeout(function() {
+    runBtn.innerHTML = '⚡ AI 一键生成整家方案';
+    runBtn.disabled = false;
+    alert('✅ 方案已生成 · 广州·珠江新城 143㎡ 四房 · 预算匹配已达标');
+  }, 700);
+}
+</script>
+
+<div class="footer">
+  <span class="l">📊 数据驾驶舱: 今日新增 38 单 · 转化率 24.6% · 平均周期 18 天</span>
+  <span class="r">飞书多维表格 · 欧派大家居 AI 协同中枢 · 兼容版</span>
+</div>
+
+</body>
+</html>

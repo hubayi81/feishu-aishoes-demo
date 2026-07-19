@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>欧派大家居 AI 协同中枢 · 飞书 AI 先锋大赛参赛材料</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: linear-gradient(135deg, #f5f8ff 0%, #eef4ff 100%); min-height: 100vh; color: #1f2329; }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 48px 28px 60px; }
+  .hero { text-align: center; margin-bottom: 42px; }
+  .hero .badge { display: inline-block; background: linear-gradient(135deg,#3370ff,#5d81f3); color: white; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 18px; letter-spacing: 0.5px; }
+  .hero h1 { font-size: 32px; font-weight: 800; margin-bottom: 12px; background: linear-gradient(135deg,#1f2329,#3370ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero .sub { font-size: 15px; color: #646a73; line-height: 1.7; max-width: 640px; margin: 0 auto; }
+  .meta { display: flex; gap: 14px; justify-content: center; margin: 22px 0 0; flex-wrap: wrap; }
+  .meta span { background: white; border: 1px solid #dee0e3; padding: 6px 14px; border-radius: 16px; font-size: 12px; color: #4e5969; }
+
+  .section { margin-bottom: 32px; }
+  .section-title { font-size: 18px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .section-title .num { width: 28px; height: 28px; background: linear-gradient(135deg,#3370ff,#5d81f3); color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; }
+
+  .card { background: white; border-radius: 14px; padding: 22px 24px; box-shadow: 0 2px 12px rgba(0,0,0,.06); border: 1px solid #e8eaed; transition: all .2s; margin-bottom: 14px; }
+  .card:hover { box-shadow: 0 6px 20px rgba(51,112,255,.12); border-color: #c5d6ff; transform: translateY(-2px); }
+  .card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .card-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .card-icon.blue { background: linear-gradient(135deg,#e8f3ff,#d0e4ff); }
+  .card-icon.green { background: linear-gradient(135deg,#e8f5e9,#c8e6c9); }
+  .card-icon.orange { background: linear-gradient(135deg,#fff3e0,#ffe0b2); }
+  .card-icon.purple { background: linear-gradient(135deg,#f3e5f5,#e1bee7); }
+  .card-icon.red { background: linear-gradient(135deg,#ffebee,#ffcdd2); }
+  .card-title { font-size: 16px; font-weight: 700; }
+  .card-desc { font-size: 13px; color: #646a73; line-height: 1.6; margin-bottom: 14px; }
+  .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+  .card-tag { font-size: 11px; padding: 3px 9px; border-radius: 10px; background: #f4f5f7; color: #4e5969; }
+  .card-tag.hot { background: #fff0f6; color: #c41d7f; }
+  .card-tag.new { background: #f6ffed; color: #389e0d; }
+  .btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn { padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all .15s; border: 1px solid transparent; cursor: pointer; }
+  .btn-primary { background: linear-gradient(135deg,#3370ff,#5d81f3); color: white; }
+  .btn-primary:hover { box-shadow: 0 4px 14px rgba(51,112,255,.4); transform: translateY(-1px); }
+  .btn-secondary { background: white; color: #3370ff; border-color: #3370ff; }
+  .btn-secondary:hover { background: #f0f5ff; }
+  .btn-ghost { background: white; color: #4e5969; border-color: #dee0e3; }
+  .btn-ghost:hover { border-color: #3370ff; color: #3370ff; }
+
+  .arch { background: white; border-radius: 14px; padding: 22px 24px; box-shadow: 0 2px 12px rgba(0,0,0,.06); border: 1px solid #e8eaed; margin-bottom: 32px; }
+  .arch h3 { font-size: 16px; font-weight: 700; margin-bottom: 14px; }
+  .arch pre { background: #1f2329; color: #d4d5d8; padding: 16px 18px; border-radius: 8px; font-size: 12px; line-height: 1.7; overflow-x: auto; font-family: "SF Mono", Consolas, monospace; }
+  .arch pre .k { color: #7ee787; }
+  .arch pre .s { color: #a5d6ff; }
+  .arch pre .c { color: #8b949e; }
+
+  .footer { text-align: center; font-size: 12px; color: #8f959e; margin-top: 40px; padding-top: 24px; border-top: 1px solid #e8eaed; }
+  .footer a { color: #3370ff; text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 28px 16px 40px; }
+    .hero h1 { font-size: 24px; }
+    .card { padding: 16px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="badge">飞书 AI 先锋大赛 · 参赛作品</div>
+    <h1>欧派大家居 AI 协同中枢</h1>
+    <p class="sub">以飞书为协同底座，构建"客户—门店—工厂—总部"四端一体的业务中台，<br>在关键节点嵌入 AI 智能体，实现信息实时贯通、流程自动串接、决策有据可依。</p>
+    <div class="meta">
+      <span>🏢 命题企业：欧派家居</span>
+      <span>👥 参赛团队：hubayi</span>
+      <span>📅 2026-07-19</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="num">1</span> 核心交付 · 飞书多维表格 Demo</div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon blue">📊</div>
+        <div class="card-title">飞书多维表格 · 业务中台交互 Demo</div>
+      </div>
+      <div class="card-desc">4 个视图切换（多维表格 / 看板 / AI 机器人 / AI 设计助手），35+ 条真实订单数据，AI 教练对话完整，AI 设计助手可交互——选择风格+面积+预算后实时生成整家方案 BOM + 预算匹配提示。</div>
+      <div class="card-tags">
+        <span class="card-tag hot">⭐ 评委重点推荐</span>
+        <span class="card-tag new">可交互</span>
+        <span class="card-tag">飞书风格 UI</span>
+        <span class="card-tag">4 视图</span>
+        <span class="card-tag">AI 对话</span>
+      </div>
+      <div class="btns">
+        <a class="btn btn-primary" href="feishu-demo.html" target="_blank">🚀 立即体验在线 Demo</a>
+        <a class="btn btn-secondary" href="feishu-demo.html" download>📥 下载 HTML 源文件</a>
+        <a class="btn btn-ghost" href="ie-fallback.html" target="_blank">📟 IE/旧浏览器兼容版</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="num">2</span> 数据支撑 · 竞品分析 & 财务测算</div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon green">📋</div>
+        <div class="card-title">竞品 AI 数字化对比矩阵</div>
+      </div>
+      <div class="card-desc">5 家竞品（欧派/索菲亚/尚品宅配/金牌厨柜/志邦家居）× 7 个维度对比，含可信度分级（★★★★/★★★）+ 数据来源标注 + 关键结论。</div>
+      <div class="card-tags"><span class="card-tag">5 竞品</span><span class="card-tag">7 维度</span><span class="card-tag">来源标注</span></div>
+      <div class="btns">
+        <a class="btn btn-primary" href="matrix.xlsx" download>📥 下载 matrix.xlsx</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon orange">💰</div>
+        <div class="card-title">三年投入产出财务模型</div>
+      </div>
+      <div class="card-desc">3 sheet（可调假设参数 / 三年对比测算 / 结论摘要），飞书方案 vs 索菲亚重系统 ROI 对比，全部 Excel 公式动态计算，蓝色单元格可现场调整。</div>
+      <div class="card-tags"><span class="card-tag">3 sheet</span><span class="card-tag">公式可调</span><span class="card-tag">ROI 对比</span></div>
+      <div class="btns">
+        <a class="btn btn-primary" href="financial.xlsx" download>📥 下载 financial.xlsx</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="num">3</span> 开题报告 · 文字版</div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon purple">📝</div>
+        <div class="card-title">开题报告 Part 1 + Part 2</div>
+      </div>
+      <div class="card-desc">前置分析洞察（~280 字）+ 整体解决方案设计（~570 字），可直接复制粘贴到飞书提交页。</div>
+      <div class="btns">
+        <a class="btn btn-primary" href="开题报告.md" target="_blank">📄 查看开题报告</a>
+        <a class="btn btn-secondary" href="开题报告.md" download>📥 下载 Markdown</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="arch">
+    <h3>📐 方案架构总览</h3>
+    <pre>
+<span class="c">┌─────────────────────────────────────────────────────────┐</span>
+<span class="c">│</span>  <span class="k">客户</span>  ←→  <span class="k">门店导购</span>  ←→  <span class="k">工厂 MES</span>  ←→  <span class="k">总部驾驶舱</span>   <span class="c">│</span>
+<span class="c">└────────────────────────┬────────────────────────────────┘</span>
+                         <span class="s">│ 飞书协同底座</span>
+          <span class="c">┌─────────────────┼─────────────────┐</span>
+          <span class="c">│</span>                 <span class="c">│</span>                 <span class="c">│</span>
+   <span class="k">多维表格</span>      <span class="k">审批流</span>        <span class="k">机器人+IM</span>
+   订单主数据       节点卡点推送      实时通知
+          <span class="c">│</span>                 <span class="c">│</span>                 <span class="c">│</span>
+          <span class="c">└─────────┬─────────┴─────────┬─────────┘</span>
+                    <span class="s">│                   │</span>
+              <span class="k">AI 智能体矩阵</span>         <span class="k">数据层</span>
+              设计/报价/销售/交付/客服      多维报表
+    </pre>
+  </div>
+
+  <div class="footer">
+    <p>参赛团队：<strong>hubayi</strong> · 命题企业：<strong>欧派家居</strong> · 比赛：<strong>飞书 AI 先锋大赛 2026</strong></p>
+    <p style="margin-top:6px">Demo 已部署至 GitHub Pages · 最后更新：2026-07-19</p>
+  </div>
+
+</div>
+</body>
+</html>
