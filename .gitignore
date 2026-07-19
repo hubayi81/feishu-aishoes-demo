@@ -2,3 +2,7 @@
 ~$*.docx
 .DS_Store
 *.swp
+
+# 团队临时文档
+欧派家居*.docx
+团队*.docx
